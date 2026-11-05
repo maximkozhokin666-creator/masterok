@@ -1,0 +1,8 @@
+{
+  "appId": "ru.masterok.app",
+  "appName": "Мастерок",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https"
+  }
+}

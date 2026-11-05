@@ -1,0 +1,19 @@
+{
+  "name": "masterok-app",
+  "version": "3.0.0",
+  "private": true,
+  "description": "Мастерок — приложение для расчётов и смет ремонта",
+  "scripts": {
+    "android:add": "node scripts/copy-web.js && npx cap add android",
+    "android:sync": "node scripts/copy-web.js && npx cap sync android",
+    "android:open": "npx cap open android",
+    "android:debug": "npx cap sync android && cd android && gradlew.bat assembleDebug"
+  },
+  "dependencies": {
+    "@capacitor/android": "^6.2.1",
+    "@capacitor/core": "^6.2.1"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^6.2.1"
+  }
+}
