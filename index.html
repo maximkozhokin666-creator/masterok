@@ -3,150 +3,383 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#151923">
+<meta name="theme-color" content="#0b0b0d">
+<meta name="color-scheme" content="dark">
 <meta name="description" content="Мастерок — проекты, сметы и строительные калькуляторы">
 <link rel="manifest" href="manifest.webmanifest">
 <title>Мастерок — помощник мастера</title>
 <style>
-:root{--bg:#10141c;--panel:#191f2b;--panel2:#222a38;--text:#f3f5f8;--muted:#9ba6b7;--accent:#f0a43a;--line:#30394a;--green:#55c58b;--red:#ef7777}
-*{box-sizing:border-box}body{margin:0;background:linear-gradient(160deg,#171e2b,#0e1219 55%);color:var(--text);font:15px system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh}
-main{max-width:760px;margin:auto;padding:16px 13px calc(35px + env(safe-area-inset-bottom))}
-header{display:flex;align-items:center;justify-content:space-between;margin:4px 2px 17px}
-.brand{display:flex;align-items:center;gap:11px}.logo{width:43px;height:43px;border-radius:14px;background:var(--accent);display:grid;place-items:center;color:#171717;font-weight:950;font-size:23px}
-h1{font-size:21px;margin:0;letter-spacing:.3px}.sub{font-size:12px;color:var(--muted);margin-top:2px}.pill{font-size:10px;color:#f4bd70;border:1px solid #76552c;border-radius:30px;padding:6px 9px;letter-spacing:.7px}
-.projectbar{display:flex;gap:9px;align-items:center;background:#202938;border:1px solid var(--line);padding:11px 12px;border-radius:15px;margin-bottom:13px}
-.projectbar .grow{flex:1;min-width:0}.projectbar small{display:block;color:var(--muted);font-size:10px}.projectbar strong{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:14px}
-.nav{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin:0 0 15px}.nav button{background:var(--panel);border:1px solid var(--line);color:#cbd2de;border-radius:12px;padding:11px 4px;font-size:12px;font-weight:650}.nav button.active{background:#3a3022;border-color:#94672e;color:#ffd08a}
-.card{background:rgba(25,31,43,.97);border:1px solid var(--line);border-radius:18px;padding:15px;margin:11px 0;box-shadow:0 12px 35px #0002}
-h2{font-size:15px;margin:0 0 13px}h3{font-size:14px;margin:0 0 6px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-label{display:block;color:var(--muted);font-size:12px;margin-bottom:6px}
-input,select{width:100%;background:var(--panel2);border:1px solid #3a4558;border-radius:11px;color:var(--text);font:inherit;padding:12px;outline:none;min-width:0}
-input:focus,select:focus{border-color:var(--accent)}.field{min-width:0}.full{grid-column:1/-1}
-.hint{color:var(--muted);font-size:11px;margin-top:10px;line-height:1.5}
-.results{display:grid;grid-template-columns:1fr 1fr;gap:9px}.result{background:#222a38;border-radius:13px;padding:12px;min-width:0}.result strong{display:block;font-size:19px;margin-top:4px;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}.result span{font-size:11px;color:var(--muted)}.result.primary{border:1px solid #76552c;background:#2b261f}
-.actions{display:flex;gap:8px;margin-top:11px;flex-wrap:wrap}.actions button{flex:1;min-width:110px}
-button{border:0;border-radius:12px;padding:12px 13px;font:650 13px system-ui;cursor:pointer}button:disabled{opacity:.45;cursor:not-allowed}.primaryBtn{background:var(--accent);color:#1b1b1b}.secondary{background:var(--panel2);color:var(--text);border:1px solid var(--line)}.danger{background:#382329;color:#ffaaaa;border:1px solid #75414a}.small{padding:8px 10px;font-size:11px}
-.tab{display:none}.tab.active{display:block}.view{display:none}.view.active{display:block}
-.calcnav{display:flex;gap:7px;overflow:auto;padding:2px 0 8px;margin-bottom:5px}.calcnav button{white-space:nowrap;background:var(--panel);color:var(--muted);border:1px solid var(--line);padding:9px 11px;font-size:11px}.calcnav button.active{color:#ffd08a;border-color:#94672e;background:#3a3022}
-.item{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}.item:last-child{border-bottom:0}.item-main{min-width:0;flex:1}.item-main strong{display:block;font-size:13px;overflow-wrap:anywhere}.item-main small{color:var(--muted);font-size:11px}.item-price{font-weight:750;white-space:nowrap;font-variant-numeric:tabular-nums}
-.empty{padding:20px 10px;text-align:center;color:var(--muted);font-size:13px;line-height:1.5}.total{display:flex;justify-content:space-between;align-items:center;background:#2b261f;border:1px solid #76552c;border-radius:13px;padding:14px;margin-top:12px}.total strong{font-size:20px;color:#ffd08a}
-.notice{border-left:3px solid var(--accent);padding:9px 11px;background:#25251f;border-radius:7px;color:#d2c4a9;font-size:11px;line-height:1.45;margin-top:12px}
-footer{text-align:center;color:#758094;font-size:11px;padding:15px 0 4px}.modalback{position:fixed;inset:0;background:#0009;display:none;align-items:flex-end;justify-content:center;padding:12px;z-index:10}.modalback.show{display:flex}.modal{background:#191f2b;border:1px solid var(--line);border-radius:20px;padding:18px;width:min(100%,480px);max-height:85vh;overflow:auto}.modal h2{margin-bottom:15px}.modal .actions{margin-top:15px}
-.toast{position:fixed;bottom:calc(18px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);background:#293343;border:1px solid #526078;padding:11px 15px;border-radius:30px;font-size:12px;display:none;z-index:20;box-shadow:0 8px 30px #0008;max-width:90%;text-align:center}.toast.show{display:block}
-@media(min-width:520px){main{padding-top:25px}.card{padding:18px}.nav button{font-size:13px}.modalback{align-items:center}}
+:root{
+  --bg:#0b0b0d;--card:#141417;--card2:#1b1b20;--line:#26262c;--line2:#34343c;
+  --text:#f1ede4;--muted:#928e84;--gold:#d6b26a;--gold-hi:#efd7a0;--gold-lo:#a8823a;
+  --gold-grad:linear-gradient(135deg,#efd7a0 0%,#cfa856 55%,#a8823a 100%);
+  --gold-soft:rgba(214,178,106,.10);--gold-line:rgba(214,178,106,.30);
+  --danger:#e58a82;--danger-bg:rgba(229,138,130,.10);--danger-line:rgba(229,138,130,.32);--ok:#8fd0a4;
+  --serif:ui-serif,"Iowan Old Style","Palatino Linotype",Georgia,"Noto Serif","Times New Roman",serif;
+  --sans:-apple-system,BlinkMacSystemFont,"Inter","Segoe UI",Roboto,system-ui,sans-serif;
+  --ease:cubic-bezier(.22,.8,.3,1);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.45 var(--sans);min-height:100vh;
+  background-image:radial-gradient(900px 420px at 50% -140px,rgba(214,178,106,.11),transparent 70%)}
+.ic{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.ic.sm{width:17px;height:17px}.ic.lg{width:24px;height:24px}
+main{max-width:640px;margin:auto;padding:calc(14px + env(safe-area-inset-top)) 16px calc(112px + env(safe-area-inset-bottom))}
+
+/* header */
+header{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:2px 0 16px}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.logo{width:42px;height:42px;border-radius:13px;background:var(--gold-grad);display:grid;place-items:center;color:#17130a;font:700 23px var(--serif);box-shadow:0 6px 22px rgba(214,178,106,.25),inset 0 1px 0 rgba(255,255,255,.35)}
+h1{font:600 19px var(--serif);margin:0;letter-spacing:.22em}
+.sub{font-size:11px;color:var(--muted);margin-top:2px;letter-spacing:.04em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.save{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--muted);border:1px solid var(--line);border-radius:30px;padding:6px 11px;white-space:nowrap;background:rgba(255,255,255,.015)}
+.save i{width:6px;height:6px;border-radius:50%;background:var(--muted);transition:background .3s,box-shadow .3s}
+.save.saved i{background:var(--ok);box-shadow:0 0 8px rgba(143,208,164,.6)}
+.save.saving i{background:var(--gold);animation:pulse .8s infinite}
+.save.err{color:var(--danger);border-color:var(--danger-line)}.save.err i{background:var(--danger)}
+@keyframes pulse{50%{opacity:.3}}
+
+/* project bar */
+.projectbar{display:none;gap:10px;align-items:center;background:var(--card);border:1px solid var(--line);padding:10px 10px 10px 14px;border-radius:16px;margin-bottom:12px}
+body[data-view=estimate] .projectbar,body[data-view=calculators] .projectbar,body[data-view=history] .projectbar{display:flex}
+.projectbar .grow{flex:1;min-width:0}
+.projectbar small{display:block;color:var(--gold);font-size:10px;letter-spacing:.14em;text-transform:uppercase}
+.projectbar strong{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:15px;font-weight:600;margin-top:1px}
+
+/* cards & typography */
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:18px;margin:12px 0}
+h2{font:600 18px var(--serif);margin:0 0 14px;letter-spacing:.01em}
+h3{font-size:14px;margin:0 0 6px}
+.sect{display:flex;justify-content:space-between;align-items:center;font:600 11px var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin:22px 4px 10px}
+.sect button{background:none;border:0;color:var(--muted);font:500 12px var(--sans);letter-spacing:0;text-transform:none;padding:4px 0}
+.cardhead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}.cardhead h2{margin:0}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.field{min-width:0;display:flex;flex-direction:column;justify-content:flex-end}.full{grid-column:1/-1}
+label{display:block;color:var(--muted);font-size:12px;margin:0 0 7px 2px;letter-spacing:.02em}
+input,select,textarea{width:100%;min-height:48px;background:#0f0f12;border:1px solid var(--line2);border-radius:13px;color:var(--text);font:16px var(--sans);padding:12px 14px;outline:none;min-width:0;transition:border-color .2s,box-shadow .2s,background .2s}
+input::placeholder,textarea::placeholder{color:#5d5b55}
+input:focus,select:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(214,178,106,.14);background:#111114}
+textarea{min-height:92px;resize:vertical;line-height:1.45;display:block}
+input[type=number]{-moz-appearance:textfield;appearance:textfield}
+input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.hint{color:var(--muted);font-size:12px;margin-top:12px;line-height:1.55}
+.hint.bad{color:var(--danger)}
+
+/* buttons */
+button{font:600 14px var(--sans);border:0;border-radius:14px;padding:13px 16px;cursor:pointer;color:var(--text);transition:transform .15s var(--ease),opacity .2s,background .2s,border-color .2s;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px}
+button:active:not(:disabled){transform:scale(.97)}
+button:disabled{opacity:.45;cursor:not-allowed}
+.primaryBtn{background:var(--gold-grad);color:#1a1409;box-shadow:0 8px 22px rgba(214,178,106,.18),inset 0 1px 0 rgba(255,255,255,.35)}
+.secondary{background:var(--card2);border:1px solid var(--line2)}
+.secondary:hover{border-color:var(--gold-line)}
+.danger{background:var(--danger-bg);color:var(--danger);border:1px solid var(--danger-line)}
+.small{padding:9px 13px;font-size:12px;min-height:38px;border-radius:12px}
+.iconbtn{width:38px;height:38px;min-height:38px;padding:0;border-radius:11px;background:transparent;color:var(--muted);border:1px solid transparent}
+.iconbtn:hover{color:var(--gold-hi);background:var(--gold-soft)}.iconbtn.del:hover{color:var(--danger);background:var(--danger-bg)}
+.wide{width:100%}
+.actions{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}.actions button{flex:1;min-width:0;padding-left:12px;padding-right:12px;white-space:nowrap}
+
+/* views & animation */
+.view{display:none}.view.active{display:block}
+.view.active>*{animation:rise .42s var(--ease) both}
+.view.active>*:nth-child(2){animation-delay:.05s}.view.active>*:nth-child(3){animation-delay:.1s}.view.active>*:nth-child(4){animation-delay:.15s}.view.active>*:nth-child(5){animation-delay:.2s}.view.active>*:nth-child(6){animation-delay:.25s}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.tab{display:none}.tab.active{display:block;animation:rise .35s var(--ease) both}
+
+/* home hero */
+.hero{background:linear-gradient(155deg,#201c13 0%,#141417 58%);border:1px solid var(--gold-line);padding:22px 20px;position:relative;overflow:hidden;margin-top:4px}
+.hero:before{content:"";position:absolute;right:-60px;top:-60px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(214,178,106,.22),transparent 68%);pointer-events:none}
+.eyebrow{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold)}
+.hero-title{font:600 26px/1.2 var(--serif);margin:6px 0 18px;overflow-wrap:anywhere;position:relative}
+.hero-total span{font-size:12px;color:var(--muted)}
+.hero-total strong{display:block;font:600 38px/1.1 var(--serif);margin-top:4px;background:var(--gold-grad);-webkit-background-clip:text;background-clip:text;color:transparent;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.stats{display:flex;gap:26px;margin:18px 0 2px;padding-top:16px;border-top:1px solid rgba(214,178,106,.16)}
+.stats b{display:block;font:600 20px var(--serif)}.stats span{font-size:11px;color:var(--muted)}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.tile{flex-direction:column;gap:9px;padding:16px 6px;background:var(--card);border:1px solid var(--line);font-size:12px;font-weight:550;color:#d8d4ca;min-height:84px;border-radius:16px}
+.tile .ic{color:var(--gold);width:23px;height:23px}
+.tile:hover{border-color:var(--gold-line);background:#18171a}
+
+/* calculators */
+.calcnav{display:flex;gap:8px;overflow-x:auto;padding:2px 1px 10px;margin:0 -16px 4px;padding-left:16px;padding-right:16px;scrollbar-width:none}
+.calcnav::-webkit-scrollbar{display:none}
+.calcnav button{white-space:nowrap;background:var(--card);color:var(--muted);border:1px solid var(--line);padding:10px 14px;font-size:13px;min-height:42px;border-radius:30px;flex:none}
+.calcnav button.active{color:#1a1409;background:var(--gold-grad);border-color:transparent}
+.results{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.result{background:var(--card2);border:1px solid var(--line);border-radius:15px;padding:13px;min-width:0}
+.result strong{display:block;font:600 21px var(--serif);margin-top:5px;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.result span{font-size:11px;color:var(--muted);line-height:1.3;display:block}
+.result.primary{grid-column:1/-1;background:linear-gradient(155deg,#241f14,#17171a);border-color:var(--gold-line)}
+.result.primary strong{font-size:28px;color:var(--gold-hi)}
+.btnrow{display:grid;gap:9px;margin-top:14px}
+.notice{border:1px solid var(--line);border-left:2px solid var(--gold);padding:12px 14px;background:rgba(255,255,255,.015);border-radius:12px;color:var(--muted);font-size:12px;line-height:1.55;margin-top:14px}
+
+/* lists */
+.item{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)}
+.item:last-child{border-bottom:0;padding-bottom:2px}.item:first-child{padding-top:2px}
+.item-main{min-width:0;flex:1}.item-main strong{display:block;font-size:14px;font-weight:600;overflow-wrap:anywhere}
+.item-main small{color:var(--muted);font-size:12px;display:block;margin-top:2px;overflow-wrap:anywhere}
+.item-price{font-weight:600;white-space:nowrap;font-variant-numeric:tabular-nums;color:var(--gold-hi)}
+.badge{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);border:1px solid var(--gold-line);border-radius:30px;padding:3px 8px;margin-left:6px;vertical-align:2px;font-weight:600;white-space:nowrap}
+.badge.mute{color:var(--muted);border-color:var(--line2);margin:0}
+.proj{display:flex;gap:10px;align-items:center;padding:14px 12px;margin:0 -12px;border-radius:14px;cursor:pointer;border-bottom:0;transition:background .2s}
+.proj+.proj{margin-top:2px}.proj:hover{background:rgba(255,255,255,.02)}
+.proj.active{background:var(--gold-soft);box-shadow:inset 0 0 0 1px var(--gold-line)}
+.proj-ico{width:42px;height:42px;border-radius:13px;background:var(--card2);border:1px solid var(--line2);display:grid;place-items:center;color:var(--muted);flex:none}
+.proj.active .proj-ico{color:var(--gold);border-color:var(--gold-line)}
+.proj-ctl{display:flex;flex:none}
+.work{padding:14px 0;border-bottom:1px solid var(--line)}.work:last-child{border-bottom:0;padding-bottom:2px}.work:first-child{padding-top:2px}
+.work-top{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;cursor:pointer}
+.work-top strong{font-size:14px;font-weight:600;overflow-wrap:anywhere}
+.work-sub{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:2px}
+.work-sub small{color:var(--muted);font-size:12px;min-width:0;overflow-wrap:anywhere}
+.work-ctl{display:flex;margin-right:-8px;flex:none}
+.empty{padding:26px 10px;text-align:center;color:var(--muted);font-size:13px;line-height:1.6}
+.empty .ic{width:30px;height:30px;color:var(--gold-lo);margin-bottom:8px;opacity:.8}
+.total{display:flex;justify-content:space-between;align-items:center;gap:10px;background:linear-gradient(155deg,#241f14,#17171a);border:1px solid var(--gold-line);border-radius:16px;padding:15px 16px;margin-top:14px}
+.total span{color:var(--muted);font-size:13px}.total strong{font:600 22px var(--serif);color:var(--gold-hi);font-variant-numeric:tabular-nums;text-align:right;overflow-wrap:anywhere}
+.summary{display:flex;justify-content:space-between;align-items:flex-end;gap:12px}
+.summary strong{display:block;font:600 30px/1.1 var(--serif);margin-top:4px;background:var(--gold-grad);-webkit-background-clip:text;background-clip:text;color:transparent;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.summary .count{font-size:12px;color:var(--muted);text-align:right;white-space:nowrap}
+.linepreview{display:flex;justify-content:space-between;align-items:center;margin-top:14px;font-size:13px;color:var(--muted)}.linepreview b{color:var(--gold-hi);font-weight:600;font-variant-numeric:tabular-nums}
+.kv{display:flex;justify-content:space-between;gap:10px;padding:11px 0;border-bottom:1px solid var(--line);font-size:13px}.kv:last-child{border:0}.kv span{color:var(--muted)}
+.backlink{background:none;color:var(--muted);padding:6px 2px;min-height:0;font-size:13px;margin:0 0 2px}
+
+/* bottom navigation */
+.nav{position:fixed;left:0;right:0;bottom:0;z-index:8;padding:0 12px calc(10px + env(safe-area-inset-bottom));pointer-events:none}
+.nav-in{max-width:520px;margin:auto;display:grid;grid-template-columns:repeat(6,1fr);background:rgba(18,18,21,.92);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);border:1px solid var(--line2);border-radius:22px;padding:6px;box-shadow:0 14px 40px rgba(0,0,0,.6);pointer-events:auto}
+.nav button{flex-direction:column;gap:4px;background:transparent;color:var(--muted);padding:9px 2px 8px;font-size:10.5px;font-weight:550;min-height:54px;border-radius:16px;position:relative}
+.nav button.active{color:var(--gold-hi);background:var(--gold-soft)}
+.nav button.active:after{content:"";position:absolute;top:0;width:18px;height:2px;border-radius:2px;background:var(--gold-grad)}
+@media(pointer:coarse){body.kb .nav{display:none}body.kb main{padding-bottom:30px}}
+
+/* modal / bottom sheet */
+.modalback{position:fixed;inset:0;background:rgba(0,0,0,.66);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);display:none;align-items:flex-end;justify-content:center;z-index:30}
+.modalback.show{display:flex;animation:fade .2s both}
+.modal{background:#151518;border:1px solid var(--line2);border-bottom:0;border-radius:26px 26px 0 0;padding:10px 20px calc(20px + env(safe-area-inset-bottom));width:min(100%,520px);max-height:90vh;max-height:90dvh;overflow:auto;animation:sheet .32s var(--ease) both}
+.modal:before{content:"";display:block;width:38px;height:4px;border-radius:4px;background:var(--line2);margin:0 auto 16px}
+.modal h2{margin-bottom:16px}
+.modal p{margin:0;color:#cfcbc1;line-height:1.55}
+.modal .actions{margin-top:18px}
+@keyframes fade{from{opacity:0}}@keyframes sheet{from{transform:translateY(40px);opacity:0}}
+.toast{position:fixed;bottom:calc(92px + env(safe-area-inset-bottom));left:50%;transform:translate(-50%,12px);background:#1d1d22;border:1px solid var(--gold-line);color:var(--text);padding:12px 18px;border-radius:30px;font-size:13px;opacity:0;pointer-events:none;z-index:40;box-shadow:0 10px 34px rgba(0,0,0,.6);max-width:90%;text-align:center;transition:opacity .25s,transform .3s var(--ease)}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+footer{text-align:center;color:#6c6a63;font-size:11px;padding:20px 0 4px;letter-spacing:.06em}
+
+@media(min-width:560px){main{padding-top:30px}.card{padding:22px}.modalback{align-items:center}.modal{border-radius:26px;border-bottom:1px solid var(--line2)}.toast{bottom:104px}}
+@media(max-width:400px){.nav-in{padding:5px 3px}.nav button{font-size:9.5px;letter-spacing:-.01em;padding-left:0;padding-right:0}}
+@media(max-width:350px){.tiles{grid-template-columns:1fr 1fr}.grid{gap:10px}.hero-total strong{font-size:32px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
 </style>
 </head>
-<body>
+<body data-view="home">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></symbol>
+<symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+<symbol id="i-receipt" viewBox="0 0 24 24"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/></symbol>
+<symbol id="i-calc" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 12h.01M12 12h.01M16 12h.01M8 16h.01M12 16h.01M16 16h.01"/></symbol>
+<symbol id="i-gear" viewBox="0 0 24 24"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></symbol>
+<symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+<symbol id="i-edit" viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></symbol>
+<symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></symbol>
+<symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></symbol>
+<symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+<symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></symbol>
+<symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V5M7 9l5-5 5 5M5 20h14"/></symbol>
+<symbol id="i-swap" viewBox="0 0 24 24"><path d="M7 7h12l-3-3M17 17H5l3 3"/></symbol>
+<symbol id="i-back" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></symbol>
+<symbol id="i-room" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="1.5"/><path d="M4 9h3M4 14h3M9 4v3M14 4v3"/></symbol>
+<symbol id="i-tile" viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="1"/><rect x="13" y="4" width="7" height="7" rx="1"/><rect x="4" y="13" width="7" height="7" rx="1"/><rect x="13" y="13" width="7" height="7" rx="1"/></symbol>
+<symbol id="i-mix" viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/></symbol>
+<symbol id="i-paint" viewBox="0 0 24 24"><rect x="4" y="3" width="14" height="6" rx="1.5"/><path d="M18 6h2v5h-8v3"/><rect x="10" y="14" width="4" height="7" rx="1"/></symbol>
+<symbol id="i-roll" viewBox="0 0 24 24"><rect x="3" y="6" width="14" height="12" rx="2"/><path d="M17 8h3v8h-3"/><path d="M7 10h6M7 14h6"/></symbol>
+<symbol id="i-doc" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4"/><path d="M9 12h6M9 16h6"/></symbol>
+<symbol id="i-floor" viewBox="0 0 24 24"><path d="M3 18h18"/><path d="M5 18v-5h14v5"/><path d="M8 13V9h8v4"/></symbol>
+</defs></svg>
 <main>
-<header><div class="brand"><div class="logo">М</div><div><h1>МАСТЕРОК</h1><div class="sub">Помощник бригады по ремонту</div></div></div><div class="pill">PRO · 3.0</div></header>
-<div class="projectbar"><div class="grow"><small>АКТИВНЫЙ ПРОЕКТ</small><strong id="activeProjectName">Загрузка…</strong></div><button class="secondary small" id="switchProjectBtn">Сменить</button></div>
-<nav class="nav" aria-label="Основные разделы">
-<button class="active" data-view="projects">📁 Проекты</button><button data-view="estimate">🧾 Смета</button><button data-view="calculators">📐 Расчёты</button><button data-view="history">🕘 История</button>
-</nav>
-<section class="view active" id="projectsView">
-<div class="card"><div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><h2 style="margin:0">Мои проекты</h2><button class="primaryBtn small" id="addProjectBtn">＋ Новый проект</button></div><div id="projectsList"></div></div>
-<div class="card"><h2>Резервная копия</h2><p class="hint">Экспортируй все проекты в файл, чтобы перенести данные на другое устройство или сохранить отдельно.</p><div class="actions"><button class="secondary" id="exportBtn">Экспорт данных</button><button class="secondary" id="importBtn">Импорт данных</button><input id="importFile" type="file" accept="application/json" hidden></div></div>
+<header>
+  <div class="brand"><div class="logo">М</div><div style="min-width:0"><h1>МАСТЕРОК</h1><div class="sub">Помощник мастера</div></div></div>
+  <div class="save saved" id="saveState" title="Все изменения сохраняются автоматически"><i></i><span>Автосохранение</span></div>
+</header>
+<div class="projectbar"><div class="grow"><small>Активный проект</small><strong id="activeProjectName">Загрузка…</strong></div><button class="secondary small" id="switchProjectBtn"><svg class="ic sm"><use href="#i-swap"/></svg>Сменить</button></div>
+
+<section class="view active" id="homeView">
+  <div class="card hero">
+    <div class="eyebrow">Активный проект</div>
+    <h2 class="hero-title" id="homeProjectName">…</h2>
+    <div class="hero-total"><span>Стоимость работ по смете</span><strong id="homeTotal">0 ₽</strong></div>
+    <div class="stats"><div><b id="homeWorks">0</b><span>работ</span></div><div><b id="homeCalcs">0</b><span>расчётов</span></div><div><b id="homeProjects">1</b><span>проектов</span></div></div>
+    <div class="actions"><button class="primaryBtn" id="homeAddWork" style="flex:1.5"><svg class="ic sm"><use href="#i-plus"/></svg>Добавить работу</button><button class="secondary" id="homeSwitch"><svg class="ic sm"><use href="#i-folder"/></svg>Проекты</button></div>
+  </div>
+  <div class="sect">Калькуляторы</div>
+  <div class="tiles">
+    <button class="tile" data-goto="room"><svg class="ic"><use href="#i-room"/></svg>Помещение</button>
+    <button class="tile" data-goto="tile"><svg class="ic"><use href="#i-tile"/></svg>Плитка</button>
+    <button class="tile" data-goto="mix"><svg class="ic"><use href="#i-mix"/></svg>Смеси</button>
+    <button class="tile" data-goto="paint"><svg class="ic"><use href="#i-paint"/></svg>Краска</button>
+    <button class="tile" data-goto="wallpaper"><svg class="ic"><use href="#i-roll"/></svg>Обои</button>
+    <button class="tile" data-goto="concrete"><svg class="ic"><use href="#i-floor"/></svg>Стяжка</button>
+  </div>
+  <div class="sect">Последние действия <button id="homeHistoryBtn">Вся история</button></div>
+  <div class="card" style="margin-top:0" id="homeRecent"></div>
 </section>
+
+<section class="view" id="projectsView">
+  <div class="card"><div class="cardhead"><h2>Мои проекты</h2><button class="primaryBtn small" id="addProjectBtn"><svg class="ic sm"><use href="#i-plus"/></svg>Новый</button></div><div id="projectsList"></div></div>
+</section>
+
 <section class="view" id="estimateView">
-<div class="card"><h2>Добавить работу в смету</h2><div class="grid">
-<div class="field full"><label>Название работы</label><input id="workName" placeholder="Например, укладка плитки"></div>
-<div class="field"><label>Единица измерения</label><input id="workUnit" placeholder="м² / м.п. / шт." value="м²"></div>
-<div class="field"><label>Количество</label><input id="workQty" type="number" min="0" step="0.01" inputmode="decimal" placeholder="0"></div>
-<div class="field full"><label>Цена за единицу, ₽</label><input id="workPrice" type="number" min="0" step="0.01" inputmode="decimal" placeholder="0"></div>
-</div><div class="actions"><button class="primaryBtn" id="addWorkBtn">Добавить в смету</button></div></div>
-<div class="card"><h2>Позиции сметы</h2><div id="estimateList"></div><div class="total"><span>Итого по работам</span><strong id="estimateTotal">0 ₽</strong></div></div>
+  <div class="card"><div class="summary"><div><span class="eyebrow">Итого по смете</span><strong id="estimateTotalTop">0 ₽</strong></div><div class="count" id="estimateCount">0 позиций</div></div></div>
+  <div class="card"><h2>Добавить работу</h2><div class="grid">
+    <div class="field full"><label>Название работы</label><input id="workName" placeholder="Например, укладка плитки" maxlength="120" enterkeyhint="next"></div>
+    <div class="field"><label>Единица измерения</label><input id="workUnit" placeholder="м² / м.п. / шт." value="м²" enterkeyhint="next"></div>
+    <div class="field"><label>Количество</label><input id="workQty" type="number" min="0" step="0.01" inputmode="decimal" placeholder="0" enterkeyhint="next"></div>
+    <div class="field full"><label>Цена за единицу, ₽</label><input id="workPrice" type="number" min="0" step="0.01" inputmode="decimal" placeholder="0" enterkeyhint="done"></div>
+  </div>
+  <div class="linepreview"><span>Стоимость позиции</span><b id="workSum">0 ₽</b></div>
+  <div class="actions"><button class="primaryBtn" id="addWorkBtn"><svg class="ic sm"><use href="#i-plus"/></svg>Добавить в смету</button></div></div>
+  <div class="card"><h2>Позиции сметы</h2><div id="estimateList"></div><div class="total"><span>Итого по работам</span><strong id="estimateTotal">0 ₽</strong></div><div class="actions"><button class="secondary" id="estimateToProposal"><svg class="ic sm"><use href="#i-doc"/></svg>Создать КП из сметы</button></div></div>
 </section>
+
+<section class="view" id="proposalsView">
+  <div class="card"><div class="cardhead"><h2>Коммерческие предложения</h2><button class="primaryBtn small" id="addProposalBtn"><svg class="ic sm"><use href="#i-plus"/></svg>Новое</button></div><div id="proposalsList"></div></div>
+</section>
+
+<section class="view" id="proposalView">
+  <button class="backlink" id="proposalBack"><svg class="ic sm"><use href="#i-back"/></svg>Все предложения</button>
+  <div class="card"><div class="results">
+    <div class="result primary"><span>Общая сумма</span><strong id="pt_total">0 ₽</strong></div>
+    <div class="result"><span>Работы</span><strong id="pt_works">0 ₽</strong></div>
+    <div class="result"><span>Материалы</span><strong id="pt_materials">0 ₽</strong></div>
+  </div><div class="hint" id="pSource"></div><div class="actions"><button class="primaryBtn" id="pPdfBtn"><svg class="ic sm"><use href="#i-download"/></svg>Экспорт в PDF</button></div></div>
+  <div class="card"><h2>Данные предложения</h2><div class="grid">
+    <div class="field full"><label>Название</label><input id="pf_title" maxlength="120" placeholder="Например, Ремонт ванной комнаты"></div>
+    <div class="field full"><label>Клиент</label><input id="pf_client" maxlength="120" placeholder="Имя или организация"></div>
+    <div class="field full"><label>Исполнитель</label><input id="pf_executor" maxlength="120" placeholder="Кто выполняет работы"></div>
+    <div class="field full"><label>Телефон</label><input id="pf_phone" type="tel" inputmode="tel" maxlength="40" placeholder="+7 …"></div>
+    <div class="field full"><label>Адрес объекта</label><input id="pf_address" maxlength="200" placeholder="Город, улица, дом"></div>
+    <div class="field full"><label>Сроки выполнения</label><input id="pf_deadline" maxlength="120" placeholder="Например, 14 рабочих дней"></div>
+    <div class="field full"><label>Условия оплаты</label><input id="pf_paymentTerms" maxlength="200" placeholder="Например, 50% предоплата"></div>
+    <div class="field full"><label>Описание</label><textarea id="pf_description" maxlength="2000" placeholder="Что входит в предложение, примечания"></textarea></div>
+  </div><div class="hint">Все поля, кроме названия, необязательные. Изменения сохраняются автоматически.</div></div>
+  <div class="card"><div class="cardhead"><h2>Работы</h2><button class="primaryBtn small" data-padd="work"><svg class="ic sm"><use href="#i-plus"/></svg>Добавить</button></div><div id="pWorks"></div><div class="total"><span>Итого по работам</span><strong id="pt_works2">0 ₽</strong></div></div>
+  <div class="card"><div class="cardhead"><h2>Материалы</h2><button class="primaryBtn small" data-padd="material"><svg class="ic sm"><use href="#i-plus"/></svg>Добавить</button></div><div id="pMaterials"></div><div class="total"><span>Итого по материалам</span><strong id="pt_materials2">0 ₽</strong></div></div>
+  <div class="card"><div class="total" style="margin-top:0"><span>Общая сумма</span><strong id="pt_total2">0 ₽</strong></div><div class="actions"><button class="secondary" id="pCopyBtn"><svg class="ic sm"><use href="#i-copy"/></svg>Копировать</button><button class="danger" id="pDelBtn"><svg class="ic sm"><use href="#i-trash"/></svg>Удалить</button></div></div>
+</section>
+
 <section class="view" id="calculatorsView">
-<div class="calcnav" id="calcNav"><button class="active" data-tab="room">📐 Помещение</button><button data-tab="tile">▦ Плитка</button><button data-tab="mix">🧱 Смеси</button><button data-tab="paint">🖌 Краска</button><button data-tab="wallpaper">▤ Обои</button><button data-tab="concrete">▰ Стяжка</button></div>
-<section class="tab active" id="room">
-<div class="card"><h2>Размеры помещения</h2><div class="grid">
-<div class="field"><label>Длина, м</label><input id="r_l" type="number" inputmode="decimal" value="5" min="0" step=".01"></div>
-<div class="field"><label>Ширина, м</label><input id="r_w" type="number" inputmode="decimal" value="3.5" min="0" step=".01"></div>
-<div class="field"><label>Высота, м</label><input id="r_h" type="number" inputmode="decimal" value="2.7" min="0" step=".01"></div>
-<div class="field"><label>Проёмы (окна/двери), м²</label><input id="r_o" type="number" inputmode="decimal" value="3" min="0" step=".01"></div>
-</div><div class="hint">Суммарная площадь всех оконных и дверных проёмов.</div></div>
-<div class="card"><h2>Результат</h2><div class="results">
-<div class="result primary"><span>Пол</span><strong id="r_floor">—</strong></div><div class="result"><span>Потолок</span><strong id="r_ceil">—</strong></div>
-<div class="result"><span>Стены за вычетом проёмов</span><strong id="r_walls">—</strong></div><div class="result"><span>Периметр</span><strong id="r_per">—</strong></div>
-</div><button class="primaryBtn" style="width:100%;margin-top:12px" data-copy="room">Скопировать расчёт</button></div>
+  <div class="calcnav" id="calcNav"><button class="active" data-tab="room">Помещение</button><button data-tab="tile">Плитка</button><button data-tab="mix">Смеси</button><button data-tab="paint">Краска</button><button data-tab="wallpaper">Обои</button><button data-tab="concrete">Стяжка</button></div>
+  <section class="tab active" id="room">
+    <div class="card"><h2>Размеры помещения</h2><div class="grid">
+    <div class="field"><label>Длина, м</label><input id="r_l" type="number" inputmode="decimal" value="5" min="0" step=".01"></div>
+    <div class="field"><label>Ширина, м</label><input id="r_w" type="number" inputmode="decimal" value="3.5" min="0" step=".01"></div>
+    <div class="field"><label>Высота, м</label><input id="r_h" type="number" inputmode="decimal" value="2.7" min="0" step=".01"></div>
+    <div class="field"><label>Проёмы (окна/двери), м²</label><input id="r_o" type="number" inputmode="decimal" value="3" min="0" step=".01"></div>
+    </div><div class="hint">Суммарная площадь всех оконных и дверных проёмов.</div></div>
+    <div class="card"><h2>Результат</h2><div class="results">
+    <div class="result primary"><span>Пол</span><strong id="r_floor">—</strong></div><div class="result"><span>Потолок</span><strong id="r_ceil">—</strong></div>
+    <div class="result"><span>Стены за вычетом проёмов</span><strong id="r_walls">—</strong></div><div class="result"><span>Периметр</span><strong id="r_per">—</strong></div>
+    </div><div class="btnrow"><button class="secondary" data-copy="room"><svg class="ic sm"><use href="#i-copy"/></svg>Скопировать расчёт</button></div></div>
+  </section>
+
+  <section class="tab" id="tile">
+    <div class="card"><h2>Расчёт плитки</h2><div class="grid">
+    <div class="field"><label>Длина поверхности, м</label><input id="t_l" type="number" inputmode="decimal" value="3" min="0" step=".01"></div>
+    <div class="field"><label>Ширина поверхности, м</label><input id="t_w" type="number" inputmode="decimal" value="2" min="0" step=".01"></div>
+    <div class="field"><label>Длина плитки, см</label><input id="t_tl" type="number" inputmode="decimal" value="60" min="0" step="1"></div>
+    <div class="field"><label>Ширина плитки, см</label><input id="t_tw" type="number" inputmode="decimal" value="60" min="0" step="1"></div>
+    <div class="field"><label>Запас, %</label><input id="t_res" type="number" inputmode="decimal" value="10" min="0" step="1"></div>
+    <div class="field"><label>Плиток в упаковке, шт.</label><input id="t_pack" type="number" inputmode="numeric" value="4" min="1" step="1"></div>
+    </div><div class="hint">Расчёт по площади с запасом. Сложная раскладка, диагональ и большое количество подрезки могут потребовать большего запаса.</div></div>
+    <div class="card"><h2>Результат</h2><div class="results">
+    <div class="result primary"><span>Площадь поверхности</span><strong id="t_area">—</strong></div><div class="result"><span>Площадь одной плитки</span><strong id="t_one">—</strong></div>
+    <div class="result"><span>Количество плиток</span><strong id="t_count">—</strong></div><div class="result"><span>Упаковок к покупке</span><strong id="t_boxes">—</strong></div>
+    </div><div class="btnrow"><button class="secondary" data-copy="tile"><svg class="ic sm"><use href="#i-copy"/></svg>Скопировать расчёт</button></div></div>
+  </section>
+
+  <section class="tab" id="mix">
+    <div class="card"><h2>Штукатурка / шпаклёвка</h2><div class="grid">
+    <div class="field"><label>Площадь, м²</label><input id="m_area" type="number" inputmode="decimal" value="45" min="0" step=".1"></div>
+    <div class="field"><label>Расход на 1 м² на 1 мм, кг</label><input id="m_rate" type="number" inputmode="decimal" value="1" min="0" step=".01"></div>
+    <div class="field"><label>Средняя толщина слоя, мм</label><input id="m_thick" type="number" inputmode="decimal" value="10" min="0" step=".5"></div>
+    <div class="field"><label>Запас, %</label><input id="m_res" type="number" inputmode="decimal" value="10" min="0" step="1"></div>
+    <div class="field full"><label>Вес мешка, кг</label><input id="m_bag" type="number" inputmode="decimal" value="25" min="0" step="1"></div>
+    </div><div class="hint">Расход на 1 мм возьми с упаковки конкретной смеси. Для штукатурки учитывай фактическую среднюю толщину слоя.</div></div>
+    <div class="card"><h2>Результат</h2><div class="results">
+    <div class="result primary"><span>Общий расход</span><strong id="m_total">—</strong></div><div class="result"><span>Мешков купить</span><strong id="m_bags">—</strong></div>
+    </div><div class="btnrow"><button class="secondary" data-copy="mix"><svg class="ic sm"><use href="#i-copy"/></svg>Скопировать расчёт</button></div></div>
+  </section>
+
+  <section class="tab" id="paint">
+    <div class="card"><h2>Расчёт краски</h2><div class="grid">
+    <div class="field"><label>Площадь, м²</label><input id="p_area" type="number" inputmode="decimal" value="45" min="0" step=".1"></div>
+    <div class="field"><label>Расход, м² на 1 литр</label><input id="p_rate" type="number" inputmode="decimal" value="10" min="0" step=".1"></div>
+    <div class="field"><label>Количество слоёв</label><input id="p_layers" type="number" inputmode="numeric" value="2" min="1" step="1"></div>
+    <div class="field"><label>Запас, %</label><input id="p_res" type="number" inputmode="decimal" value="10" min="0" step="1"></div>
+    </div><div class="hint">Проверь расход на этикетке краски: он зависит от поверхности, инструмента и способа нанесения.</div></div>
+    <div class="card"><h2>Результат</h2><div class="results">
+    <div class="result primary"><span>Краски потребуется</span><strong id="p_total">—</strong></div><div class="result"><span>С учётом слоёв</span><strong id="p_base">—</strong></div>
+    </div><div class="btnrow"><button class="secondary" data-copy="paint"><svg class="ic sm"><use href="#i-copy"/></svg>Скопировать расчёт</button></div></div>
+  </section>
+
+  <section class="tab" id="wallpaper">
+    <div class="card"><h2>Расчёт обоев</h2><div class="grid">
+    <div class="field"><label>Периметр комнаты, м</label><input id="w_per" type="number" inputmode="decimal" value="17" min="0" step=".01"></div>
+    <div class="field"><label>Высота стены, м</label><input id="w_h" type="number" inputmode="decimal" value="2.7" min="0" step=".01"></div>
+    <div class="field"><label>Ширина рулона, м</label><input id="w_width" type="number" inputmode="decimal" value=".53" min="0" step=".01"></div>
+    <div class="field"><label>Длина рулона, м</label><input id="w_len" type="number" inputmode="decimal" value="10.05" min="0" step=".01"></div>
+    <div class="field"><label>Запас на подгонку, %</label><input id="w_res" type="number" inputmode="decimal" value="10" min="0" step="1"></div>
+    </div><div class="hint">Упрощённый расчёт без вычета окон и дверей. При подборе рисунка и раппорте расход может быть выше.</div></div>
+    <div class="card"><h2>Результат</h2><div class="results">
+    <div class="result primary"><span>Полотен, шт.</span><strong id="w_strips">—</strong></div><div class="result"><span>Полотен из рулона</span><strong id="w_perroll">—</strong></div>
+    <div class="result"><span>Рулонов купить</span><strong id="w_rolls">—</strong></div><div class="result"><span>Длина одного полотна</span><strong id="w_cut">—</strong></div>
+    </div><div class="btnrow"><button class="secondary" data-copy="wallpaper"><svg class="ic sm"><use href="#i-copy"/></svg>Скопировать расчёт</button></div></div>
+  </section>
+
+  <section class="tab" id="concrete">
+    <div class="card"><h2>Стяжка / заливка</h2><div class="grid">
+    <div class="field"><label>Площадь, м²</label><input id="c_area" type="number" inputmode="decimal" value="25" min="0" step=".1"></div>
+    <div class="field"><label>Средняя толщина, см</label><input id="c_thick" type="number" inputmode="decimal" value="5" min="0" step=".5"></div>
+    <div class="field"><label>Запас, %</label><input id="c_res" type="number" inputmode="decimal" value="10" min="0" step="1"></div>
+    <div class="field"><label>Вес мешка, кг (если сухая смесь)</label><input id="c_bag" type="number" inputmode="decimal" value="25" min="0" step="1"></div>
+    <div class="field full"><label>Расход сухой смеси, кг на 1 м² при 1 см</label><input id="c_rate" type="number" inputmode="decimal" value="20" min="0" step=".1"></div>
+    </div><div class="hint">Для готового бетона ориентируйся на объём в м³. Для сухой смеси укажи расход производителя — он может отличаться.</div></div>
+    <div class="card"><h2>Результат</h2><div class="results">
+    <div class="result primary"><span>Объём заливки</span><strong id="c_volume">—</strong></div><div class="result"><span>Сухой смеси</span><strong id="c_kg">—</strong></div>
+    <div class="result"><span>Мешков купить</span><strong id="c_bags">—</strong></div>
+    </div><div class="btnrow"><button class="secondary" data-copy="concrete"><svg class="ic sm"><use href="#i-copy"/></svg>Скопировать расчёт</button></div></div>
+  </section>
+
+  <div class="notice">Все результаты предварительные. Проверяй нормы расхода на упаковке и учитывай геометрию, основание, толщину слоя, технологию и запас конкретного материала.</div>
 </section>
 
-<section class="tab" id="tile">
-<div class="card"><h2>Расчёт плитки</h2><div class="grid">
-<div class="field"><label>Длина поверхности, м</label><input id="t_l" type="number" inputmode="decimal" value="3" min="0" step=".01"></div>
-<div class="field"><label>Ширина поверхности, м</label><input id="t_w" type="number" inputmode="decimal" value="2" min="0" step=".01"></div>
-<div class="field"><label>Длина плитки, см</label><input id="t_tl" type="number" inputmode="decimal" value="60" min="0" step="1"></div>
-<div class="field"><label>Ширина плитки, см</label><input id="t_tw" type="number" inputmode="decimal" value="60" min="0" step="1"></div>
-<div class="field"><label>Запас, %</label><input id="t_res" type="number" inputmode="decimal" value="10" min="0" step="1"></div>
-<div class="field"><label>Плиток в упаковке, шт.</label><input id="t_pack" type="number" inputmode="numeric" value="4" min="1" step="1"></div>
-</div><div class="hint">Расчёт по площади с запасом. Сложная раскладка, диагональ и большое количество подрезки могут потребовать большего запаса.</div></div>
-<div class="card"><h2>Результат</h2><div class="results">
-<div class="result primary"><span>Площадь поверхности</span><strong id="t_area">—</strong></div><div class="result"><span>Площадь одной плитки</span><strong id="t_one">—</strong></div>
-<div class="result"><span>Количество плиток</span><strong id="t_count">—</strong></div><div class="result"><span>Упаковок к покупке</span><strong id="t_boxes">—</strong></div>
-</div><button class="primaryBtn" style="width:100%;margin-top:12px" data-copy="tile">Скопировать расчёт</button></div>
+<section class="view" id="historyView">
+  <button class="backlink" id="historyBack"><svg class="ic sm"><use href="#i-back"/></svg>Назад</button>
+  <div class="card"><h2>История проекта</h2><div id="historyList"></div></div>
 </section>
 
-<section class="tab" id="mix">
-<div class="card"><h2>Штукатурка / шпаклёвка</h2><div class="grid">
-<div class="field"><label>Площадь, м²</label><input id="m_area" type="number" inputmode="decimal" value="45" min="0" step=".1"></div>
-<div class="field"><label>Расход на 1 м² на 1 мм, кг</label><input id="m_rate" type="number" inputmode="decimal" value="1" min="0" step=".01"></div>
-<div class="field"><label>Средняя толщина слоя, мм</label><input id="m_thick" type="number" inputmode="decimal" value="10" min="0" step=".5"></div>
-<div class="field"><label>Запас, %</label><input id="m_res" type="number" inputmode="decimal" value="10" min="0" step="1"></div>
-<div class="field full"><label>Вес мешка, кг</label><input id="m_bag" type="number" inputmode="decimal" value="25" min="0" step="1"></div>
-</div><div class="hint">Расход на 1 мм возьми с упаковки конкретной смеси. Для штукатурки учитывай фактическую среднюю толщину слоя.</div></div>
-<div class="card"><h2>Результат</h2><div class="results">
-<div class="result primary"><span>Общий расход</span><strong id="m_total">—</strong></div><div class="result"><span>Мешков купить</span><strong id="m_bags">—</strong></div>
-</div><button class="primaryBtn" style="width:100%;margin-top:12px" data-copy="mix">Скопировать расчёт</button></div>
+<section class="view" id="settingsView">
+  <div class="card"><h2>Резервная копия</h2><p class="hint" style="margin-top:-4px">Экспортируй все проекты в файл, чтобы перенести данные на другое устройство или сохранить отдельно. Импорт заменяет текущие данные.</p><div class="actions"><button class="secondary" id="exportBtn"><svg class="ic sm"><use href="#i-download"/></svg>Экспорт данных</button><button class="secondary" id="importBtn"><svg class="ic sm"><use href="#i-upload"/></svg>Импорт данных</button><input id="importFile" type="file" accept="application/json" hidden></div></div>
+  <div class="card"><h2>Данные на устройстве</h2><div id="settingsStats"></div><p class="hint">Все изменения сохраняются автоматически и хранятся только на этом устройстве.</p></div>
+  <div class="card"><h2>О приложении</h2><div class="kv"><span>Версия</span><b>3.2</b></div><div class="kv"><span>Оформление</span><b>Dark Premium</b></div><div class="kv"><span>Работа без интернета</span><b>Да</b></div></div>
 </section>
-
-<section class="tab" id="paint">
-<div class="card"><h2>Расчёт краски</h2><div class="grid">
-<div class="field"><label>Площадь, м²</label><input id="p_area" type="number" inputmode="decimal" value="45" min="0" step=".1"></div>
-<div class="field"><label>Расход, м² на 1 литр</label><input id="p_rate" type="number" inputmode="decimal" value="10" min="0" step=".1"></div>
-<div class="field"><label>Количество слоёв</label><input id="p_layers" type="number" inputmode="numeric" value="2" min="1" step="1"></div>
-<div class="field"><label>Запас, %</label><input id="p_res" type="number" inputmode="decimal" value="10" min="0" step="1"></div>
-</div><div class="hint">Проверь расход на этикетке краски: он зависит от поверхности, инструмента и способа нанесения.</div></div>
-<div class="card"><h2>Результат</h2><div class="results">
-<div class="result primary"><span>Краски потребуется</span><strong id="p_total">—</strong></div><div class="result"><span>С учётом слоёв</span><strong id="p_base">—</strong></div>
-</div><button class="primaryBtn" style="width:100%;margin-top:12px" data-copy="paint">Скопировать расчёт</button></div>
-</section>
-
-<section class="tab" id="wallpaper">
-<div class="card"><h2>Расчёт обоев</h2><div class="grid">
-<div class="field"><label>Периметр комнаты, м</label><input id="w_per" type="number" inputmode="decimal" value="17" min="0" step=".01"></div>
-<div class="field"><label>Высота стены, м</label><input id="w_h" type="number" inputmode="decimal" value="2.7" min="0" step=".01"></div>
-<div class="field"><label>Ширина рулона, м</label><input id="w_width" type="number" inputmode="decimal" value=".53" min="0" step=".01"></div>
-<div class="field"><label>Длина рулона, м</label><input id="w_len" type="number" inputmode="decimal" value="10.05" min="0" step=".01"></div>
-<div class="field"><label>Запас на подгонку, %</label><input id="w_res" type="number" inputmode="decimal" value="10" min="0" step="1"></div>
-</div><div class="hint">Упрощённый расчёт без вычета окон и дверей. При подборе рисунка и раппорте расход может быть выше.</div></div>
-<div class="card"><h2>Результат</h2><div class="results">
-<div class="result primary"><span>Полотен, шт.</span><strong id="w_strips">—</strong></div><div class="result"><span>Полотен из рулона</span><strong id="w_perroll">—</strong></div>
-<div class="result"><span>Рулонов купить</span><strong id="w_rolls">—</strong></div><div class="result"><span>Длина одного полотна</span><strong id="w_cut">—</strong></div>
-</div><button class="primaryBtn" style="width:100%;margin-top:12px" data-copy="wallpaper">Скопировать расчёт</button></div>
-</section>
-
-<section class="tab" id="concrete">
-<div class="card"><h2>Стяжка / заливка</h2><div class="grid">
-<div class="field"><label>Площадь, м²</label><input id="c_area" type="number" inputmode="decimal" value="25" min="0" step=".1"></div>
-<div class="field"><label>Средняя толщина, см</label><input id="c_thick" type="number" inputmode="decimal" value="5" min="0" step=".5"></div>
-<div class="field"><label>Запас, %</label><input id="c_res" type="number" inputmode="decimal" value="10" min="0" step="1"></div>
-<div class="field"><label>Вес мешка, кг (если сухая смесь)</label><input id="c_bag" type="number" inputmode="decimal" value="25" min="0" step="1"></div>
-<div class="field full"><label>Расход сухой смеси, кг на 1 м² при 1 см</label><input id="c_rate" type="number" inputmode="decimal" value="20" min="0" step=".1"></div>
-</div><div class="hint">Для готового бетона ориентируйся на объём в м³. Для сухой смеси укажи расход производителя — он может отличаться.</div></div>
-<div class="card"><h2>Результат</h2><div class="results">
-<div class="result primary"><span>Объём заливки</span><strong id="c_volume">—</strong></div><div class="result"><span>Сухой смеси</span><strong id="c_kg">—</strong></div>
-<div class="result"><span>Мешков купить</span><strong id="c_bags">—</strong></div>
-</div><button class="primaryBtn" style="width:100%;margin-top:12px" data-copy="concrete">Скопировать расчёт</button></div>
-</section>
-
-
-<div class="notice">Все результаты предварительные. Проверяй нормы расхода на упаковке и учитывай геометрию, основание, толщину слоя, технологию и запас конкретного материала.</div>
-</section>
-<section class="view" id="historyView"><div class="card"><h2>История проекта</h2><div id="historyList"></div></div></section>
-<footer>МАСТЕРОК · Данные хранятся на устройстве · Версия 3.0</footer>
+<footer>МАСТЕРОК · Данные хранятся на устройстве · Версия 3.2</footer>
 </main>
-<div class="modalback" id="modalBack"><div class="modal"><h2 id="modalTitle">Проект</h2><div id="modalBody"></div><div class="actions"><button class="secondary" id="modalCancel">Отмена</button><button class="primaryBtn" id="modalSave">Сохранить</button></div></div></div>
-<div class="toast" id="toast"></div>
+
+<nav class="nav" aria-label="Основные разделы"><div class="nav-in">
+<button class="active" data-view="home"><svg class="ic"><use href="#i-home"/></svg><span>Главная</span></button>
+<button data-view="projects"><svg class="ic"><use href="#i-folder"/></svg><span>Проекты</span></button>
+<button data-view="estimate"><svg class="ic"><use href="#i-receipt"/></svg><span>Смета</span></button>
+<button data-view="proposals" aria-label="Коммерческие предложения" title="Коммерческие предложения"><svg class="ic"><use href="#i-doc"/></svg><span>КП</span></button>
+<button data-view="calculators"><svg class="ic"><use href="#i-calc"/></svg><span>Расчёты</span></button>
+<button data-view="settings"><svg class="ic"><use href="#i-gear"/></svg><span>Настройки</span></button>
+</div></nav>
+
+<div class="modalback" id="modalBack"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><h2 id="modalTitle">Проект</h2><div id="modalBody"></div><div class="actions"><button class="secondary" id="modalCancel">Отмена</button><button class="primaryBtn" id="modalSave">Сохранить</button></div></div></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="pdf-fonts.js"></script>
+<script src="pdf-kp.js"></script>
 <script>
 const $=id=>document.getElementById(id), val=id=>{let n=parseFloat($(id).value.replace(',','.'));return Number.isFinite(n)&&n>0?n:0}, fmt=n=>n.toLocaleString('ru-RU',{minimumFractionDigits:2,maximumFractionDigits:2}), ceil=n=>Math.ceil(n);
 
@@ -161,46 +394,172 @@ const calcs={room:calcRoom,tile:calcTile,mix:calcMix,paint:calcPaint,wallpaper:c
 
 
 const DB_NAME='masterok-db', DB_VERSION=1, STORE='state';
-const state={projects:[],activeId:null};
-let db=null, modalAction=null, currentCalc='room';
+const state={projects:[],activeId:null,proposals:[]};
+let db=null, modalAction=null, modalOnClose=null, currentCalc='room', currentView='home';
 const inputFields=[...document.querySelectorAll('#calculatorsView input')];
 const project=()=>state.projects.find(p=>p.id===state.activeId);
 const money=n=>Number(n||0).toLocaleString('ru-RU',{maximumFractionDigits:2})+' ₽';
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,8);
+const projTotal=p=>(p?.works||[]).reduce((s,w)=>s+w.qty*w.price,0);
+const plural=(n,a,b,c)=>{n=Math.abs(n)%100;const m=n%10;return n>10&&n<20?c:m>1&&m<5?b:m===1?a:c};
+const ico=(id,cls='')=>`<svg class="ic ${cls}"><use href="#i-${id}"/></svg>`;
 function toast(msg){const t=$('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toast.timer);toast.timer=setTimeout(()=>t.classList.remove('show'),2300)}
+function mark(s){const el=$('saveState');el.className='save '+s;el.querySelector('span').textContent=s==='saving'?'Сохранение…':s==='err'?'Ошибка сохранения':'Сохранено'}
+function normalizeProposals(){state.proposals=Array.isArray(state.proposals)?state.proposals.filter(p=>p&&typeof p==='object'):[];const now=new Date().toISOString();state.proposals.forEach(p=>{if(!p.id)p.id=uid();['title','client','executor','phone','address','deadline','paymentTerms','description','sourceProjectName'].forEach(k=>{if(typeof p[k]!=='string')p[k]=''});p.sourceProjectId=p.sourceProjectId||null;p.createdAt=p.createdAt||now;p.updatedAt=p.updatedAt||p.createdAt;p.items=Array.isArray(p.items)?p.items.filter(i=>i&&typeof i==='object'):[];p.items.forEach(i=>{if(!i.id)i.id=uid();i.kind=i.kind==='material'?'material':'work';i.name=String(i.name??'');i.unit=i.unit||'шт.';i.qty=Number(i.qty)||0;i.price=Number(i.price)||0})})}
+function normalize(){normalizeProposals();state.projects.forEach(p=>{p.works=Array.isArray(p.works)?p.works:[];p.calculations=Array.isArray(p.calculations)?p.calculations:[];p.history=Array.isArray(p.history)?p.history:[];if(!p.inputs||typeof p.inputs!=='object')p.inputs={};p.works.forEach(w=>{w.qty=Number(w.qty)||0;w.price=Number(w.price)||0;w.unit=w.unit||'шт.';if(!w.id)w.id=uid()})})}
 function openDB(){return new Promise((resolve,reject)=>{if(!('indexedDB'in window)){resolve(null);return}const req=indexedDB.open(DB_NAME,DB_VERSION);req.onupgradeneeded=()=>{if(!req.result.objectStoreNames.contains(STORE))req.result.createObjectStore(STORE)};req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error)})}
-async function loadState(){try{db=await openDB();if(db){const data=await new Promise((res,rej)=>{const r=db.transaction(STORE,'readonly').objectStore(STORE).get('main');r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)});if(data)Object.assign(state,data)}else{const raw=localStorage.getItem('masterok-v3');if(raw)Object.assign(state,JSON.parse(raw))}}catch(e){console.error(e);try{const raw=localStorage.getItem('masterok-v3');if(raw)Object.assign(state,JSON.parse(raw))}catch(_){}}if(!state.projects.length){let legacy={};try{legacy=JSON.parse(localStorage.getItem('masterok-v2')||'{}')}catch(_){}const p={id:uid(),name:'Мой первый проект',createdAt:new Date().toISOString(),works:[],calculations:[],history:[],inputs:legacy};state.projects.push(p);state.activeId=p.id;await persist()}if(!project())state.activeId=state.projects[0].id;renderAll();loadInputs();recalc()}
-async function persist(){const snapshot=JSON.parse(JSON.stringify(state));try{if(db)await new Promise((res,rej)=>{const tx=db.transaction(STORE,'readwrite');tx.objectStore(STORE).put(snapshot,'main');tx.oncomplete=res;tx.onerror=()=>rej(tx.error)});localStorage.setItem('masterok-v3',JSON.stringify(snapshot))}catch(e){console.error(e);toast('Не удалось сохранить данные. Освободи место на устройстве.')} }
+async function loadState(){try{db=await openDB();if(db){const data=await new Promise((res,rej)=>{const r=db.transaction(STORE,'readonly').objectStore(STORE).get('main');r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)});if(data)Object.assign(state,data)}else{const raw=localStorage.getItem('masterok-v3');if(raw)Object.assign(state,JSON.parse(raw))}}catch(e){console.error(e);try{const raw=localStorage.getItem('masterok-v3');if(raw)Object.assign(state,JSON.parse(raw))}catch(_){}}if(!state.projects.length){let legacy={};try{legacy=JSON.parse(localStorage.getItem('masterok-v2')||'{}')}catch(_){}const p={id:uid(),name:'Мой первый проект',createdAt:new Date().toISOString(),works:[],calculations:[],history:[],inputs:legacy};state.projects.push(p);state.activeId=p.id;await persist()}normalize();if(!project())state.activeId=state.projects[0].id;renderAll();loadInputs();recalc()}
+async function persist(){mark('saving');const snapshot=JSON.parse(JSON.stringify(state));try{if(db)await new Promise((res,rej)=>{const tx=db.transaction(STORE,'readwrite');tx.objectStore(STORE).put(snapshot,'main');tx.oncomplete=res;tx.onerror=()=>rej(tx.error)});localStorage.setItem('masterok-v3',JSON.stringify(snapshot));mark('saved')}catch(e){console.error(e);mark('err');toast('Не удалось сохранить данные. Освободи место на устройстве.')} }
 function log(type,title,detail=''){const p=project();p.history.unshift({id:uid(),type,title,detail,at:new Date().toISOString()});p.history=p.history.slice(0,300)}
 function setActive(id){if(!state.projects.some(p=>p.id===id))return;saveInputs();state.activeId=id;loadInputs();renderAll();recalc();persist();toast('Открыт проект')}
-function renderAll(){const p=project();$('activeProjectName').textContent=p?.name||'Нет проекта';renderProjects();renderEstimate();renderHistory()}
-function renderProjects(){const box=$('projectsList');if(!state.projects.length){box.innerHTML='<div class="empty">Проектов пока нет</div>';return}box.innerHTML=state.projects.map(p=>`<div class="item"><div class="item-main"><strong>${esc(p.name)}</strong><small>${p.works.length} работ · ${p.calculations.length} расчётов</small></div><div class="actions" style="margin:0;flex-wrap:nowrap"><button class="secondary small" data-open="${p.id}">${p.id===state.activeId?'Открыт':'Открыть'}</button><button class="secondary small" data-rename="${p.id}">✎</button><button class="danger small" data-delete="${p.id}">×</button></div></div>`).join('');box.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>setActive(b.dataset.open));box.querySelectorAll('[data-rename]').forEach(b=>b.onclick=()=>projectModal('rename',b.dataset.rename));box.querySelectorAll('[data-delete]').forEach(b=>b.onclick=()=>deleteProject(b.dataset.delete))}
-function renderEstimate(){const p=project(),box=$('estimateList');if(!p?.works.length){box.innerHTML='<div class="empty">В этом проекте пока нет работ.<br>Добавь первую позицию выше.</div>'}else box.innerHTML=p.works.map(w=>`<div class="item"><div class="item-main"><strong>${esc(w.name)}</strong><small>${fmt(w.qty)} ${esc(w.unit)} × ${money(w.price)}</small></div><div class="item-price">${money(w.qty*w.price)}</div><div class="actions" style="margin:0;flex-wrap:nowrap"><button class="secondary small" data-editwork="${w.id}">✎</button><button class="danger small" data-delwork="${w.id}">×</button></div></div>`).join('');$('estimateTotal').textContent=money(p?.works.reduce((s,w)=>s+w.qty*w.price,0)||0);box.querySelectorAll('[data-editwork]').forEach(b=>b.onclick=()=>editWork(b.dataset.editwork));box.querySelectorAll('[data-delwork]').forEach(b=>b.onclick=()=>deleteWork(b.dataset.delwork))}
-function renderHistory(){const p=project(),box=$('historyList');if(!p?.history.length){box.innerHTML='<div class="empty">История этого проекта пока пуста.</div>';return}box.innerHTML=p.history.map(h=>`<div class="item"><div class="item-main"><strong>${esc(h.title)}</strong><small>${new Date(h.at).toLocaleString('ru-RU')} · ${esc(h.detail||h.type)}</small></div><span class="item-price">${h.type==='work'? 'Смета':'Расчёт'}</span></div>`).join('')}
+function renderAll(){const p=project();$('activeProjectName').textContent=p?.name||'Нет проекта';renderHome();renderProjects();renderEstimate();renderHistory();renderProposals();renderSettings()}
+function historyRow(h){return `<div class="item"><div class="item-main"><strong>${esc(h.title)}</strong><small>${new Date(h.at).toLocaleString('ru-RU')} · ${esc(h.detail||h.type)}</small></div><span class="badge mute">${h.type==='work'?'Смета':'Расчёт'}</span></div>`}
+function renderHome(){const p=project();if(!p)return;set('homeProjectName',p.name);set('homeTotal',money(projTotal(p)));set('homeWorks',p.works.length);set('homeCalcs',p.calculations.length);set('homeProjects',state.projects.length);$('homeRecent').innerHTML=p.history.length?p.history.slice(0,4).map(historyRow).join(''):`<div class="empty">${ico('clock')}<br>Пока нет действий.<br>Добавь работу в смету или сохрани расчёт.</div>`}
+function renderProjects(){const box=$('projectsList');if(!state.projects.length){box.innerHTML='<div class="empty">Проектов пока нет</div>';return}box.innerHTML=state.projects.map(p=>`<div class="item proj${p.id===state.activeId?' active':''}" data-open="${p.id}"><div class="proj-ico">${ico('folder')}</div><div class="item-main"><strong>${esc(p.name)}${p.id===state.activeId?'<span class="badge">Открыт</span>':''}</strong><small>${p.works.length} ${plural(p.works.length,'работа','работы','работ')} · ${p.calculations.length} ${plural(p.calculations.length,'расчёт','расчёта','расчётов')} · <span style="color:var(--gold-hi)">${money(projTotal(p))}</span></small></div><div class="proj-ctl"><button class="iconbtn" data-rename="${p.id}" aria-label="Переименовать">${ico('edit','sm')}</button><button class="iconbtn del" data-delete="${p.id}" aria-label="Удалить проект">${ico('trash','sm')}</button></div></div>`).join('');box.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>setActive(b.dataset.open));box.querySelectorAll('[data-rename]').forEach(b=>b.onclick=e=>{e.stopPropagation();projectModal('rename',b.dataset.rename)});box.querySelectorAll('[data-delete]').forEach(b=>b.onclick=e=>{e.stopPropagation();deleteProject(b.dataset.delete)})}
+function renderEstimate(){const p=project(),box=$('estimateList'),n=p?.works.length||0;if(!n){box.innerHTML=`<div class="empty">${ico('receipt')}<br>В этом проекте пока нет работ.<br>Добавь первую позицию выше.</div>`}else box.innerHTML=p.works.map(w=>`<div class="work"><div class="work-top" data-editwork="${w.id}"><strong>${esc(w.name)}</strong><span class="item-price">${money(w.qty*w.price)}</span></div><div class="work-sub"><small>${fmt(w.qty)} ${esc(w.unit)} × ${money(w.price)}</small><div class="work-ctl"><button class="iconbtn" data-editwork="${w.id}" aria-label="Изменить">${ico('edit','sm')}</button><button class="iconbtn" data-dupwork="${w.id}" aria-label="Дублировать">${ico('copy','sm')}</button><button class="iconbtn del" data-delwork="${w.id}" aria-label="Удалить">${ico('trash','sm')}</button></div></div></div>`).join('');const t=money(projTotal(p));$('estimateTotal').textContent=t;$('estimateTotalTop').textContent=t;$('estimateCount').textContent=n+' '+plural(n,'позиция','позиции','позиций');box.querySelectorAll('[data-editwork]').forEach(b=>b.onclick=()=>editWork(b.dataset.editwork));box.querySelectorAll('[data-dupwork]').forEach(b=>b.onclick=()=>dupWork(b.dataset.dupwork));box.querySelectorAll('[data-delwork]').forEach(b=>b.onclick=()=>deleteWork(b.dataset.delwork))}
+function renderHistory(){const p=project(),box=$('historyList');if(!p?.history.length){box.innerHTML=`<div class="empty">${ico('clock')}<br>История этого проекта пока пуста.</div>`;return}box.innerHTML=p.history.map(historyRow).join('')}
+function renderSettings(){const n=state.projects.length,w=state.projects.reduce((s,p)=>s+p.works.length,0),c=state.projects.reduce((s,p)=>s+p.calculations.length,0);$('settingsStats').innerHTML=`<div class="kv"><span>Проектов</span><b>${n}</b></div><div class="kv"><span>Работ в сметах</span><b>${w}</b></div><div class="kv"><span>Сохранённых расчётов</span><b>${c}</b></div><div class="kv"><span>Коммерческих предложений</span><b>${state.proposals.length}</b></div>`}
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function showModal(title,body,action){$('modalTitle').textContent=title;$('modalBody').innerHTML=body;$('modalBack').classList.add('show');modalAction=action}
-function closeModal(){$('modalBack').classList.remove('show');modalAction=null}
-$('modalCancel').onclick=closeModal;$('modalBack').addEventListener('click',e=>{if(e.target===$('modalBack'))closeModal()});$('modalSave').onclick=()=>{if(modalAction)modalAction();};
-function projectModal(mode,id){const p=state.projects.find(x=>x.id===id);showModal(mode==='new'?'Новый проект':'Переименовать проект',`<label>Название проекта</label><input id="projectModalName" maxlength="80" placeholder="Например, Квартира на Ленина" value="${esc(p?.name||'')}">`,async()=>{const name=$('projectModalName').value.trim();if(!name){toast('Введи название проекта');return}if(mode==='new'){const np={id:uid(),name,createdAt:new Date().toISOString(),works:[],calculations:[],history:[],inputs:{}};state.projects.unshift(np);state.activeId=np.id}else p.name=name;await persist();closeModal();renderAll();loadInputs();recalc();toast(mode==='new'?'Проект создан':'Название изменено')})}
-function deleteProject(id){const p=state.projects.find(x=>x.id===id);if(!p)return;if(state.projects.length===1){toast('Нельзя удалить последний проект');return}showModal('Удалить проект?',`<p>Проект «${esc(p.name)}» и все его сметы, расчёты и история будут удалены.</p>`,async()=>{state.projects=state.projects.filter(x=>x.id!==id);if(state.activeId===id)state.activeId=state.projects[0].id;await persist();closeModal();renderAll();loadInputs();recalc();toast('Проект удалён')})}
-$('addProjectBtn').onclick=()=>projectModal('new');$('switchProjectBtn').onclick=()=>{document.querySelector('[data-view="projects"]').click()};
-function editWork(id){const w=project().works.find(x=>x.id===id);if(!w)return;$('workName').value=w.name;$('workUnit').value=w.unit;$('workQty').value=w.qty;$('workPrice').value=w.price;$('addWorkBtn').textContent='Сохранить изменения';$('addWorkBtn').dataset.edit=id;$('workName').focus()}
-async function addWork(){const name=$('workName').value.trim(),unit=$('workUnit').value.trim()||'шт.',qty=Number($('workQty').value),price=Number($('workPrice').value);if(!name||!Number.isFinite(qty)||qty<=0||!Number.isFinite(price)||price<0){toast('Проверь название, количество и цену');return}const p=project(),edit=$('addWorkBtn').dataset.edit;if(edit){const w=p.works.find(x=>x.id===edit);Object.assign(w,{name,unit,qty,price});log('work','Изменена работа: '+name,money(qty*price));delete $('addWorkBtn').dataset.edit;$('addWorkBtn').textContent='Добавить в смету'}else{p.works.push({id:uid(),name,unit,qty,price});log('work','Добавлена работа: '+name,money(qty*price))}$('workName').value='';$('workQty').value='';$('workPrice').value='';await persist();renderAll();toast('Смета обновлена')}
+
+/* navigation */
+function go(view){if(currentView==='proposal'&&view!=='proposal')pFlush();currentView=view;document.body.dataset.view=view;const navView=({history:'home',proposal:'proposals'})[view]||view;document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.view===navView));document.querySelectorAll('.view').forEach(x=>x.classList.toggle('active',x.id===view+'View'));window.scrollTo({top:0})}
+function switchCalc(id){document.querySelectorAll('#calcNav button').forEach(x=>x.classList.toggle('active',x.dataset.tab===id));document.querySelectorAll('#calculatorsView .tab').forEach(x=>x.classList.toggle('active',x.id===id));currentCalc=id;const a=document.querySelector('#calcNav button.active');a&&a.scrollIntoView&&a.scrollIntoView({inline:'center',block:'nearest'})}
+
+/* modal */
+function finishModal(){if(modalOnClose){const f=modalOnClose;modalOnClose=null;f()}}
+function showModal(title,body,action,o={}){finishModal();$('toast').classList.remove('show');$('modalTitle').textContent=title;$('modalBody').innerHTML=body;const ok=$('modalSave'),cn=$('modalCancel');ok.textContent=o.ok||'Сохранить';ok.className=o.okClass||'primaryBtn';cn.textContent=o.cancel||'Отмена';cn.className=o.cancelClass||'secondary';cn.onclick=o.cancelAction||closeModal;$('modalBack').classList.add('show');modalAction=action;modalOnClose=o.onClose||null;const f=$('modalBody').querySelector('input');if(f&&!o.noFocus)setTimeout(()=>f.focus(),60)}
+function closeModal(){$('modalBack').classList.remove('show');modalAction=null;finishModal()}
+$('modalBack').addEventListener('click',e=>{if(e.target===$('modalBack'))closeModal()});$('modalSave').onclick=()=>{if(modalAction)modalAction();};
+$('modalBody').addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.tagName==='INPUT'){e.preventDefault();$('modalSave').click()}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('modalBack').classList.contains('show'))closeModal()});
+
+/* projects */
+function projectModal(mode,id){const p=state.projects.find(x=>x.id===id);showModal(mode==='new'?'Новый проект':'Переименовать проект',`<label>Название проекта</label><input id="projectModalName" maxlength="80" placeholder="Например, Квартира на Ленина" value="${esc(p?.name||'')}">`,async()=>{const name=$('projectModalName').value.trim();if(!name){toast('Введи название проекта');return}if(mode==='new'){const np={id:uid(),name,createdAt:new Date().toISOString(),works:[],calculations:[],history:[],inputs:{}};saveInputs();state.projects.unshift(np);state.activeId=np.id}else p.name=name;await persist();closeModal();renderAll();loadInputs();recalc();toast(mode==='new'?'Проект создан':'Название изменено')})}
+function deleteProject(id){const p=state.projects.find(x=>x.id===id);if(!p)return;if(state.projects.length===1){toast('Нельзя удалить последний проект');return}showModal('Удалить проект?',`<p>Проект «${esc(p.name)}» и все его сметы, расчёты и история будут удалены. Это действие нельзя отменить.</p>`,async()=>{state.projects=state.projects.filter(x=>x.id!==id);if(state.activeId===id){state.activeId=state.projects[0].id;loadInputs()}await persist();closeModal();renderAll();recalc();toast('Проект удалён')},{ok:'Удалить',okClass:'danger'})}
+$('addProjectBtn').onclick=()=>projectModal('new');$('switchProjectBtn').onclick=()=>go('projects');
+
+/* estimate */
+const workForm=()=>({name:$('workName').value.trim(),unit:$('workUnit').value.trim()||'шт.',qty:Number($('workQty').value),price:Number($('workPrice').value)});
+const workValid=f=>!!f.name&&Number.isFinite(f.qty)&&f.qty>0&&Number.isFinite(f.price)&&f.price>=0;
+function previewWork(){const f=workForm();$('workSum').textContent=money((f.qty||0)*(f.price||0))}
+['workName','workUnit','workQty','workPrice'].forEach(id=>$(id).addEventListener('input',previewWork));
+['workName','workUnit','workQty'].forEach((id,i,a)=>$(id).addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();$(['workUnit','workQty','workPrice'][i]).focus()}}));
+$('workPrice').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();addWork()}});
+async function addWork(){const f=workForm();if(!workValid(f)){toast('Проверь название, количество и цену');return}const p=project();p.works.push({id:uid(),...f});log('work','Добавлена работа: '+f.name,money(f.qty*f.price));$('workName').value='';$('workQty').value='';$('workPrice').value='';previewWork();await persist();renderAll();toast('Работа добавлена в смету');$('workName').focus({preventScroll:true})}
 $('addWorkBtn').onclick=addWork;
-async function deleteWork(id){const p=project(),w=p.works.find(x=>x.id===id);if(!w)return;showModal('Удалить позицию?',`<p>Удалить «${esc(w.name)}» из сметы?</p>`,async()=>{p.works=p.works.filter(x=>x.id!==id);log('work','Удалена работа: '+w.name);await persist();closeModal();renderAll();toast('Позиция удалена')})}
+function editWork(id){const p=project(),w=p.works.find(x=>x.id===id);if(!w)return;let dirty=false,timer=null;
+ const read=()=>({name:$('ew_name').value.trim(),unit:$('ew_unit').value.trim()||'шт.',qty:Number($('ew_qty').value),price:Number($('ew_price').value)});
+ const flush=async()=>{clearTimeout(timer);timer=null;await persist();renderAll()};
+ const onInput=()=>{const f=read();$('ew_sum').textContent=money((f.qty||0)*(f.price||0));const st=$('ew_state');if(!workValid(f)){st.textContent='Проверь название, количество (больше 0) и цену — пока не сохранено';st.className='hint bad';return}Object.assign(w,f);dirty=true;st.textContent='Сохранено автоматически';st.className='hint';clearTimeout(timer);timer=setTimeout(flush,350)};
+ showModal('Позиция сметы',`<div class="grid"><div class="field full"><label>Название работы</label><input id="ew_name" maxlength="120" value="${esc(w.name)}"></div><div class="field"><label>Единица</label><input id="ew_unit" value="${esc(w.unit)}"></div><div class="field"><label>Количество</label><input id="ew_qty" type="number" min="0" step="0.01" inputmode="decimal" value="${w.qty}"></div><div class="field full"><label>Цена за единицу, ₽</label><input id="ew_price" type="number" min="0" step="0.01" inputmode="decimal" value="${w.price}"></div></div><div class="total"><span>Стоимость позиции</span><strong id="ew_sum">${money(w.qty*w.price)}</strong></div><div class="hint" id="ew_state">Изменения сохраняются автоматически</div>`,()=>closeModal(),{ok:'Готово',cancel:'Удалить',cancelClass:'danger',noFocus:true,cancelAction:()=>deleteWork(id),onClose:async()=>{if(!dirty&&!timer)return;clearTimeout(timer);timer=null;if(dirty){const cur=project()?.works.find(x=>x.id===id);if(cur)log('work','Изменена работа: '+cur.name,money(cur.qty*cur.price))}await persist();renderAll()}});
+ ['ew_name','ew_unit','ew_qty','ew_price'].forEach(i=>$(i).addEventListener('input',onInput))}
+async function dupWork(id){const p=project(),w=p.works.find(x=>x.id===id);if(!w)return;const i=p.works.indexOf(w);p.works.splice(i+1,0,{...w,id:uid()});log('work','Дублирована работа: '+w.name,money(w.qty*w.price));await persist();renderAll();toast('Позиция продублирована')}
+async function deleteWork(id){const p=project(),w=p.works.find(x=>x.id===id);if(!w)return;showModal('Удалить позицию?',`<p>Удалить «${esc(w.name)}» (${money(w.qty*w.price)}) из сметы?</p>`,async()=>{p.works=p.works.filter(x=>x.id!==id);log('work','Удалена работа: '+w.name);await persist();closeModal();renderAll();toast('Позиция удалена')},{ok:'Удалить',okClass:'danger'})}
+
+/* commercial proposals — independent copies: nothing here reads back into or mutates projects/estimates */
+let curProposalId=null, pTimer=null, pDirty=false;
+const P_KEYS=['title','client','executor','phone','address','deadline','paymentTerms','description'];
+const r2=n=>Math.round((Number(n)||0)*100)/100;
+const lineSum=i=>r2((Number(i.qty)||0)*(Number(i.price)||0));
+const propTotals=p=>{const sum=k=>r2(p.items.filter(i=>i.kind===k).reduce((s,i)=>s+lineSum(i),0)),w=sum('work'),m=sum('material');return{works:w,materials:m,total:r2(w+m)}};
+const curProposal=()=>state.proposals.find(p=>p.id===curProposalId);
+const once=fn=>{let busy=false;return async()=>{if(busy)return;busy=true;try{await fn()}finally{busy=false}}};
+const touch=p=>{p.updatedAt=new Date().toISOString()};
+function newProposal(src){const now=new Date().toISOString();return{id:uid(),title:src?src.name:'Новое предложение',createdAt:now,updatedAt:now,sourceProjectId:src?src.id:null,sourceProjectName:src?src.name:'',client:'',executor:'',phone:'',address:'',deadline:'',paymentTerms:'',description:'',
+  items:src?src.works.map(w=>({id:uid(),kind:'work',name:String(w.name),unit:w.unit,qty:Number(w.qty)||0,price:Number(w.price)||0})):[]}}
+function pFlush(){clearTimeout(pTimer);pTimer=null;if(!pDirty)return Promise.resolve();pDirty=false;return persist()}
+function pSchedule(){pDirty=true;mark('saving');clearTimeout(pTimer);pTimer=setTimeout(pFlush,300)}
+document.addEventListener('visibilitychange',()=>{if(document.hidden)pFlush()});window.addEventListener('pagehide',pFlush);
+
+function renderProposals(){const box=$('proposalsList');const list=[...state.proposals].sort((a,b)=>String(b.updatedAt).localeCompare(String(a.updatedAt)));
+ if(!list.length){box.innerHTML=`<div class="empty">${ico('doc')}<br>Предложений пока нет.<br>Создай первое — работы и цены подтянутся из проекта.</div>`;return}
+ box.innerHTML=list.map(p=>{const n=p.items.length,who=[p.client,p.address].filter(Boolean).join(' · ');return `<div class="item proj" data-popen="${esc(p.id)}"><div class="proj-ico">${ico('doc')}</div><div class="item-main"><strong>${esc(p.title||'Без названия')}</strong><small>${esc(who||'Клиент не указан')}</small><small>${n} ${plural(n,'позиция','позиции','позиций')} · <span style="color:var(--gold-hi)">${money(propTotals(p).total)}</span> · ${new Date(p.updatedAt).toLocaleDateString('ru-RU')}</small></div><div class="proj-ctl"><button class="iconbtn" data-pcopy="${esc(p.id)}" aria-label="Копировать предложение">${ico('copy','sm')}</button><button class="iconbtn del" data-pdelete="${esc(p.id)}" aria-label="Удалить предложение">${ico('trash','sm')}</button></div></div>`}).join('')}
+$('proposalsList').addEventListener('click',e=>{const b=e.target.closest('[data-pcopy],[data-pdelete],[data-popen]');if(!b)return;if(b.dataset.pcopy)dupProposal(b.dataset.pcopy,false);else if(b.dataset.pdelete)deleteProposal(b.dataset.pdelete);else openProposal(b.dataset.popen)});
+
+function proposalRows(p,kind){const list=p.items.filter(i=>i.kind===kind);if(!list.length)return `<div class="empty">${ico(kind==='work'?'receipt':'mix')}<br>${kind==='work'?'Работ пока нет.':'Материалов пока нет.<br>В смете проекта материалы не ведутся — добавь их здесь.'}</div>`;
+ return list.map(i=>`<div class="work"><div class="work-top" data-pedit="${esc(i.id)}"><strong>${esc(i.name)}</strong><span class="item-price">${money(lineSum(i))}</span></div><div class="work-sub"><small>${fmt(i.qty)} ${esc(i.unit)} × ${money(i.price)}</small><div class="work-ctl"><button class="iconbtn" data-pedit="${esc(i.id)}" aria-label="Изменить">${ico('edit','sm')}</button><button class="iconbtn" data-pdup="${esc(i.id)}" aria-label="Дублировать">${ico('copy','sm')}</button><button class="iconbtn del" data-pdel="${esc(i.id)}" aria-label="Удалить">${ico('trash','sm')}</button></div></div></div>`).join('')}
+function renderProposalDoc(){const p=curProposal();if(!p)return;const t=propTotals(p);
+ set('pt_total',money(t.total));set('pt_total2',money(t.total));set('pt_works',money(t.works));set('pt_works2',money(t.works));set('pt_materials',money(t.materials));set('pt_materials2',money(t.materials));
+ set('pSource',p.sourceProjectId||p.sourceProjectName?`Создано на основе проекта «${p.sourceProjectName||'без названия'}». Изменения здесь не затрагивают проект и его смету.`:'Предложение создано вручную и не связано с проектами.');
+ $('pWorks').innerHTML=proposalRows(p,'work');$('pMaterials').innerHTML=proposalRows(p,'material')}
+function openProposal(id){pFlush();const p=state.proposals.find(x=>x.id===id);if(!p)return;curProposalId=id;P_KEYS.forEach(k=>{$('pf_'+k).value=p[k]||''});renderProposalDoc();go('proposal')}
+P_KEYS.forEach(k=>$('pf_'+k).addEventListener('input',e=>{const p=curProposal();if(!p)return;p[k]=e.target.value;touch(p);renderProposals();pSchedule()}));
+$('proposalBack').onclick=()=>go('proposals');
+$('proposalView').addEventListener('click',e=>{const b=e.target.closest('[data-pedit],[data-pdup],[data-pdel],[data-padd]');if(!b)return;const d=b.dataset;if(d.pedit)itemModal(null,d.pedit);else if(d.pdup)dupItem(d.pdup);else if(d.pdel)deleteItem(d.pdel);else if(d.padd)itemModal(d.padd)});
+
+function proposalCreateModal(presetId){const sel=presetId===undefined?state.activeId:presetId;
+ const opts=state.projects.map(p=>`<option value="${esc(p.id)}"${p.id===sel?' selected':''}>${esc(p.name)}${p.id===state.activeId?' · активный':''}</option>`).join('')+`<option value=""${sel===''?' selected':''}>Пустое предложение</option>`;
+ const info=()=>{const p=state.projects.find(x=>x.id===$('pnSource').value);$('pnInfo').textContent=p?(p.works.length?`Будут скопированы название, ${p.works.length} ${plural(p.works.length,'работа','работы','работ')}, их количества и цены. Сумма: ${money(propTotals(newProposal(p)).total)}. Проект и смета не изменятся.`:'В смете проекта пока нет работ — предложение получит название проекта, позиции можно добавить вручную.'):'Пустое предложение — все данные нужно ввести вручную.'};
+ showModal('Новое предложение',`<label>Создать на основе</label><select id="pnSource">${opts}</select><div class="hint" id="pnInfo"></div>`,once(async()=>{const src=state.projects.find(x=>x.id===$('pnSource').value)||null;const p=newProposal(src);state.proposals.unshift(p);await persist();closeModal();renderAll();openProposal(p.id);toast(src?'Предложение создано из проекта':'Пустое предложение создано')}),{ok:'Создать'});
+ $('pnSource').onchange=info;info()}
+$('addProposalBtn').onclick=()=>proposalCreateModal();
+$('estimateToProposal').onclick=()=>proposalCreateModal(state.activeId);
+
+async function dupProposal(id,open){pFlush();const p=state.proposals.find(x=>x.id===id);if(!p)return;const now=new Date().toISOString(),c=JSON.parse(JSON.stringify(p));c.id=uid();c.title=(p.title||'Без названия')+' (копия)';c.createdAt=c.updatedAt=now;c.items.forEach(i=>{i.id=uid()});state.proposals.unshift(c);await persist();renderAll();if(open)openProposal(c.id);toast('Копия создана')}
+function deleteProposal(id){const p=state.proposals.find(x=>x.id===id);if(!p)return;showModal('Удалить предложение?',`<p>Предложение «${esc(p.title||'Без названия')}» будет удалено. Проект и смета останутся без изменений. Это действие нельзя отменить.</p>`,once(async()=>{clearTimeout(pTimer);pTimer=null;pDirty=false;state.proposals=state.proposals.filter(x=>x.id!==id);if(curProposalId===id){curProposalId=null;go('proposals')}await persist();closeModal();renderAll();toast('Предложение удалено')}),{ok:'Удалить',okClass:'danger'})}
+$('pCopyBtn').onclick=()=>dupProposal(curProposalId,true);$('pDelBtn').onclick=()=>deleteProposal(curProposalId);
+
+function itemModal(kind,id){const p=curProposal();if(!p)return;const it=id?p.items.find(x=>x.id===id):null;if(id&&!it)return;const k=it?it.kind:kind;
+ const read=()=>({kind:$('pi_kind').value==='material'?'material':'work',name:$('pi_name').value.trim(),unit:$('pi_unit').value.trim()||'шт.',qty:Number($('pi_qty').value),price:Number($('pi_price').value)});
+ showModal(it?'Позиция предложения':k==='work'?'Новая работа':'Новый материал',`<div class="grid"><div class="field full"><label>Тип</label><select id="pi_kind"><option value="work"${k==='work'?' selected':''}>Работа</option><option value="material"${k==='material'?' selected':''}>Материал</option></select></div><div class="field full"><label>Название</label><input id="pi_name" maxlength="120" value="${esc(it?.name||'')}" placeholder="${k==='work'?'Например, укладка плитки':'Например, плиточный клей'}"></div><div class="field"><label>Единица</label><input id="pi_unit" value="${esc(it?.unit||(k==='work'?'м²':'шт.'))}"></div><div class="field"><label>Количество</label><input id="pi_qty" type="number" min="0" step="0.01" inputmode="decimal" placeholder="0" value="${it?it.qty:''}"></div><div class="field full"><label>Цена за единицу, ₽</label><input id="pi_price" type="number" min="0" step="0.01" inputmode="decimal" placeholder="0" value="${it?it.price:''}"></div></div><div class="total"><span>Стоимость позиции</span><strong id="pi_sum">${money(it?lineSum(it):0)}</strong></div>`,
+ once(async()=>{const f=read();if(!f.name||!(f.qty>0)||!Number.isFinite(f.price)||f.price<0||$('pi_price').value===''){toast('Проверь название, количество (больше 0) и цену');return}if(it)Object.assign(it,f);else p.items.push({id:uid(),...f});touch(p);await persist();closeModal();renderProposalDoc();renderProposals();toast(it?'Позиция сохранена':'Позиция добавлена')}),{ok:it?'Сохранить':'Добавить'});
+ ['pi_qty','pi_price'].forEach(i=>$(i).addEventListener('input',()=>{const f=read();$('pi_sum').textContent=money(r2((f.qty||0)*(f.price||0)))}))}
+async function dupItem(id){const p=curProposal(),i=p?.items.find(x=>x.id===id);if(!i)return;p.items.splice(p.items.indexOf(i)+1,0,{...i,id:uid()});touch(p);await persist();renderProposalDoc();renderProposals();toast('Позиция продублирована')}
+function deleteItem(id){const p=curProposal(),i=p?.items.find(x=>x.id===id);if(!i)return;showModal('Удалить позицию?',`<p>Удалить «${esc(i.name)}» (${money(lineSum(i))}) из предложения? В проекте и смете позиция останется.</p>`,once(async()=>{p.items=p.items.filter(x=>x.id!==id);touch(p);await persist();closeModal();renderProposalDoc();renderProposals();toast('Позиция удалена')}),{ok:'Удалить',okClass:'danger'})}
+
+/* calculators */
 function saveInputs(){const p=project();if(!p)return;p.inputs=Object.fromEntries(inputFields.map(x=>[x.id,x.value]))}
-function loadInputs(){const p=project();if(!p)return;inputFields.forEach(x=>{if(p.inputs&&p.inputs[x.id]!==undefined)x.value=p.inputs[x.id]})}
+function loadInputs(){const p=project();if(!p)return;inputFields.forEach(x=>{x.value=(p.inputs&&p.inputs[x.id]!==undefined)?p.inputs[x.id]:x.defaultValue})}
 inputFields.forEach(el=>el.addEventListener('input',()=>{saveInputs();recalc();persist()}));
 function calcTitle(id){return ({room:'Площадь помещения',tile:'Плитка',mix:'Штукатурка / шпаклёвка',paint:'Краска',wallpaper:'Обои',concrete:'Стяжка'})[id]||id}
 async function saveCalculation(id){const p=project();saveInputs();const result=calcs[id]();const item={id:uid(),type:id,title:calcTitle(id),result,inputs:{...p.inputs},at:new Date().toISOString()};p.calculations.unshift(item);p.calculations=p.calculations.slice(0,500);log('calc','Сохранён расчёт: '+item.title,result.replace(/\n/g,' · '));await persist();renderAll();toast('Расчёт сохранён в проект')}
-function addSaveButtons(){document.querySelectorAll('#calculatorsView .tab .card:nth-child(2)').forEach(card=>{if(card.querySelector('.saveCalc'))return;const id=card.closest('.tab').id;const key=id;const b=document.createElement('button');b.className='primaryBtn saveCalc';b.style.cssText='width:100%;margin-top:9px';b.textContent='Сохранить расчёт в проект';b.onclick=()=>saveCalculation(key);card.appendChild(b)})}
-document.querySelectorAll('.nav button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('.view').forEach(x=>x.classList.toggle('active',x.id===b.dataset.view+'View'))}));
-document.querySelectorAll('#calcNav button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('#calcNav button').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('#calculatorsView .tab').forEach(x=>x.classList.toggle('active',x.id===b.dataset.tab));currentCalc=b.dataset.tab}));
+function addSaveButtons(){document.querySelectorAll('#calculatorsView .tab .card:nth-child(2)').forEach(card=>{if(card.querySelector('.saveCalc'))return;const id=card.closest('.tab').id;const b=document.createElement('button');b.className='primaryBtn saveCalc';b.innerHTML=ico('plus','sm')+'Сохранить расчёт в проект';b.onclick=()=>saveCalculation(id);const row=card.querySelector('.btnrow')||card;row.insertBefore(b,row.firstChild)})}
+document.querySelectorAll('.nav button').forEach(b=>b.addEventListener('click',()=>go(b.dataset.view)));
+document.querySelectorAll('#calcNav button').forEach(b=>b.addEventListener('click',()=>switchCalc(b.dataset.tab)));
+document.querySelectorAll('[data-goto]').forEach(b=>b.addEventListener('click',()=>{go('calculators');switchCalc(b.dataset.goto)}));
+$('homeAddWork').onclick=()=>{go('estimate');setTimeout(()=>$('workName').focus({preventScroll:true}),60)};
+$('homeSwitch').onclick=()=>go('projects');$('homeHistoryBtn').onclick=()=>go('history');$('historyBack').onclick=()=>go('home');
 document.querySelectorAll('[data-copy]').forEach(b=>b.addEventListener('click',async()=>{const text='МАСТЕРОК — '+calcTitle(b.dataset.copy)+'\n'+calcs[b.dataset.copy]();try{await navigator.clipboard.writeText(text);toast('Расчёт скопирован')}catch(e){alert(text)}}));
 function recalc(){Object.values(calcs).forEach(fn=>fn())}
-$('exportBtn').onclick=()=>{const blob=new Blob([JSON.stringify({app:'Мастерок',version:3,exportedAt:new Date().toISOString(),...state},null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='masterok-backup-'+new Date().toISOString().slice(0,10)+'.json';a.click();URL.revokeObjectURL(a.href);toast('Резервная копия подготовлена')};
+
+/* PDF export of a proposal — read-only: builds a document from copies of the data, never writes back */
+const TRANSLIT={а:'a',б:'b',в:'v',г:'g',д:'d',е:'e',ё:'e',ж:'zh',з:'z',и:'i',й:'y',к:'k',л:'l',м:'m',н:'n',о:'o',п:'p',р:'r',с:'s',т:'t',у:'u',ф:'f',х:'kh',ц:'ts',ч:'ch',ш:'sh',щ:'shch',ъ:'',ы:'y',ь:'',э:'e',ю:'yu',я:'ya'};
+/* имя файла только из латиницы: кириллица в download-атрибуте теряется в части браузеров и WebView */
+const pdfFileName=p=>{const slug=[...String(p.title||'').toLowerCase()].map(c=>c in TRANSLIT?TRANSLIT[c]:c).join('').replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,50).replace(/-+$/,'')||'predlozhenie';return 'KP_'+slug+'_'+new Date().toISOString().slice(0,10)+'.pdf'};
+function proposalPdfModel(p){const d=new Date(),z=n=>String(n).padStart(2,'0');return{title:p.title,client:p.client,executor:p.executor,phone:p.phone,address:p.address,deadline:p.deadline,paymentTerms:p.paymentTerms,description:p.description,date:`${z(d.getDate())}.${z(d.getMonth()+1)}.${d.getFullYear()}`,items:p.items.map(i=>({kind:i.kind,name:i.name,unit:i.unit,qty:i.qty,price:i.price,sum:lineSum(i)})),totals:propTotals(p)}}
+async function deliverPdf(bytes,name){
+ const blob=new Blob([bytes],{type:'application/pdf'});
+ const cap=window.Capacitor,pl=cap&&cap.Plugins;
+ if(cap&&cap.isNativePlatform&&cap.isNativePlatform()&&pl&&pl.Filesystem&&pl.Share){ /* APK: работает, если в нативный проект добавлены @capacitor/filesystem и @capacitor/share */
+  try{let bin='';for(let i=0;i<bytes.length;i+=0x8000)bin+=String.fromCharCode.apply(null,bytes.subarray(i,i+0x8000));const r=await pl.Filesystem.writeFile({path:name,data:btoa(bin),directory:'CACHE'});await pl.Share.share({title:name,url:r.uri,dialogTitle:'Отправить предложение'});return 'shared'}catch(e){if(/cancel/i.test(String(e&&(e.message||e))))return 'cancelled';console.error(e)}
+ }
+ const file=typeof File==='function'?new File([blob],name,{type:'application/pdf'}):null;
+ if(file&&navigator.canShare&&navigator.canShare({files:[file]})&&matchMedia('(pointer:coarse)').matches){
+  try{await navigator.share({files:[file],title:name});return 'shared'}catch(e){if(e&&e.name==='AbortError')return 'cancelled'}
+ }
+ const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),30000);return 'saved'
+}
+let pdfBusy=false;
+async function exportProposalPdf(){
+ if(pdfBusy)return;const p=curProposal();if(!p)return;
+ if(!p.items.length){toast('Добавь хотя бы одну позицию, чтобы выгрузить PDF');return}
+ if(!window.MasterokPdf||!window.MasterokPdfFonts){toast('Модуль PDF не загружен. Обнови страницу');return}
+ pdfBusy=true;$('pPdfBtn').disabled=true;
+ try{await pFlush();const res=await deliverPdf(await MasterokPdf.build(proposalPdfModel(p)),pdfFileName(p));if(res!=='cancelled')toast(res==='shared'?'PDF готов':'PDF сохранён')}
+ catch(e){console.error(e);toast('Не удалось создать PDF')}
+ finally{pdfBusy=false;$('pPdfBtn').disabled=false}
+}
+$('pPdfBtn').onclick=exportProposalPdf;
+
+/* backup */
+$('exportBtn').onclick=()=>{saveInputs();const blob=new Blob([JSON.stringify({app:'Мастерок',version:3,exportedAt:new Date().toISOString(),...state},null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='masterok-backup-'+new Date().toISOString().slice(0,10)+'.json';a.click();URL.revokeObjectURL(a.href);toast('Резервная копия подготовлена')};
 $('importBtn').onclick=()=>$('importFile').click();
-$('importFile').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const data=JSON.parse(await f.text());if(!Array.isArray(data.projects)||!data.projects.length)throw Error('Неверный формат');showModal('Импортировать резервную копию?',`<p>Будет загружено проектов: <b>${data.projects.length}</b>. Текущие данные будут заменены.</p>`,async()=>{state.projects=data.projects;state.activeId=data.activeId&&state.projects.some(p=>p.id===data.activeId)?data.activeId:state.projects[0].id;await persist();closeModal();renderAll();loadInputs();recalc();toast('Данные импортированы')})}catch(err){toast('Не удалось прочитать файл резервной копии')}e.target.value=''};
+$('importFile').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const data=JSON.parse(await f.text());if(!Array.isArray(data.projects)||!data.projects.length)throw Error('Неверный формат');showModal('Импортировать резервную копию?',`<p>Будет загружено проектов: <b>${data.projects.length}</b>${Array.isArray(data.proposals)?` и коммерческих предложений: <b>${data.proposals.length}</b>`:''}. Текущие данные будут заменены.</p>`,async()=>{state.projects=data.projects;if(Array.isArray(data.proposals))state.proposals=data.proposals;normalize();state.activeId=data.activeId&&state.projects.some(p=>p.id===data.activeId)?data.activeId:state.projects[0].id;await persist();closeModal();renderAll();loadInputs();recalc();toast('Данные импортированы')},{ok:'Заменить данные',okClass:'danger'})}catch(err){toast('Не удалось прочитать файл резервной копии')}e.target.value=''};
+
+/* hide bottom nav while the on-screen keyboard is open */
+document.addEventListener('focusin',e=>{if(e.target.matches('input,select,textarea'))document.body.classList.add('kb')});
+document.addEventListener('focusout',()=>setTimeout(()=>{if(!document.activeElement||!document.activeElement.matches('input,select,textarea'))document.body.classList.remove('kb')},80));
+
 async function init(){addSaveButtons();await loadState();if('serviceWorker'in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});}
 init();
 </script>
